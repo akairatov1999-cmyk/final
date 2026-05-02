@@ -1,4 +1,79 @@
 import streamlit as st
+import pandas as pd
+import joblib
 
-st.title("Hello Streamlit")
-st.write("It works!")
+model = joblib.load('model.joblib')
+st.title('AI Real Estate Price Prediction')
+st.write('Введите параметры недвижимости')
+area = st.number_input('Area (m²)', min_value=10.0, value=78.0)
+room_count = st.number_input('Room Count', min_value=1, value=3)
+construction_year = st.number_input('Construction Year', min_value=1950, max_value=2026, value=2019)
+floor = st.number_input('Floor', min_value=1, value=5)
+floor_count = st.number_input('Floor Count', min_value=1, value=9)
+ceiling_height = st.number_input('Ceiling Height', min_value=2.0, max_value=5.0, value=2.7)
+district = st.selectbox(
+    'District',
+    ['Есиль', 'Алматы', 'Сарыарка', 'Байконур']
+)
+condition = st.selectbox(
+    'Condition',
+    ['good', 'average', 'needs repair', 'unknown']
+)
+bathroom_info = st.selectbox(
+    'Bathroom',
+    ['combined', 'separate', '2 or more', 'unknown']
+)
+parking = st.selectbox(
+    'Parking',
+    ['yes', 'no']
+)
+elevator = st.selectbox(
+    'Elevator',
+    ['yes', 'no']
+)
+if st.button('Predict Price'):
+    input_data = pd.DataFrame({
+        'owner': ['owner'],
+        'complex_name': ['unknown'],
+        'house_type': ['monolith'],
+        'in_pledge': [False],
+        'construction_year': [construction_year],
+        'ceiling_height': [ceiling_height],
+        'bathroom_info': [bathroom_info],
+        'condition': [condition],
+        'area': [area],
+        'room_count': [room_count],
+        'floor': [floor],
+        'floor_count': [floor_count],
+        'district': [district],
+        'complex_class': ['comfort'],
+        'parking': [parking],
+        'elevator': [elevator],
+        'schools_within_500m': [2],
+        'kindergartens_within_500m': [2],
+        'park_within_1km': [True],
+        'distance_to_center': [5],
+        'distance_to_botanical_garden': [3],
+        'distance_to_triathlon_park': [4],
+        'distance_to_astana_park': [4],
+        'distance_to_treatment_facility': [6],
+        'distance_to_railway_station_1': [8],
+        'distance_to_railway_station_2': [9],
+        'distance_to_industrial_zone': [10],
+        'last_floor': [False],
+        'first_floor': [False]
+    })
+    prediction = model.predict(input_data)[0]
+    st.success(f'Predicted price: {prediction:,.0f} KZT')
+    response = f'''
+    Предполагаемая стоимость квартиры составляет
+    {prediction:,.0f} тенге.
+    Основными факторами являются:
+    - район {district}
+    - площадь {area} м²
+    - {room_count}-комнатная планировка
+    - год постройки {construction_year}
+    Квартира имеет хороший инвестиционный потенциал.
+    '''
+    st.subheader('AI Analysis')
+    st.write(response)
