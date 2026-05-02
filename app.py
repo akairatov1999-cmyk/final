@@ -1,79 +1,79 @@
-from flask import Flask, request, jsonify
-import joblib
-import numpy as np
+import streamlit as st
 import pandas as pd
+import joblib
 
-# Загружаем обученный пайплайн
-model = joblib.load('bmw_global_model.joblib')
-
-# Инициализируем приложение
-app = Flask(__name__)
-
-# Список признаков в том же порядке, что и при обучении
-FEATURES = ['Units_Sold', 'Avg_Price_EUR', 'BEV_Share', 'Premium_Share', 'GDP_Growth', 'Fuel_Price_Index']
-
-@app.route('/', methods=['GET'])
-def home():
-    return "BMW Prediction API is running"
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    """
-    Эндпоинт для получения предсказаний.
-    Ожидает JSON с ключом 'data' — список объектов, каждый из которых содержит значения всех признаков.
-    Пример:
-    {
-        "data": [
-            {"Units_Sold": 100, "Avg_Price_EUR": 25000, "BEV_Share": 0.1, "Premium_Share": 0.2, "GDP_Growth": 2.5, "Fuel_Price_Index": 1.2},
-            ...
-        ]
-    }
-    """
-    try:
-        input_data = request.get_json()
-        if not input_data or 'data' not in input_data:
-            return jsonify({'error': 'Missing "data" field in JSON'}), 400
-
-        records = input_data['data']
-        # Преобразуем список записей в DataFrame
-        df_input = pd.DataFrame(records)
-        # Проверяем, что все необходимые признаки присутствуют
-        missing = set(FEATURES) - set(df_input.columns)
-        if missing:
-            return jsonify({'error': f'Missing features: {missing}'}), 400
-
-        # Извлекаем признаки в правильном порядке
-        X = df_input[FEATURES].values
-
-        # Предсказание
-        predictions = model.predict(X)
-        # Если нужны вероятности, раскомментируйте следующую строку
-        # probabilities = model.predict_proba(X)[:, 1]
-
-        # Формируем ответ
-        result = []
-        for i, pred in enumerate(predictions):
-            item = {
-                'prediction': int(pred),
-                # 'probability': float(probabilities[i])
-            }
-            result.append(item)
-
-        return jsonify({'predictions': result})
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-
-# === 6. Запуск ===
-if __name__ == '__main__':
-    print()
-    print("=" * 50)
-    print("  Сервер запущен!")
-    print("  http://localhost:5000")
-    print("=" * 50)
-    print()
-    # debug=False — для стабильной работы
-    # host='0.0.0.0' — слушаем со всех адресов (нужно для ngrok)
-    app.run(debug=False, host='0.0.0.0', use_reloader=False, port=5000)
+model = joblib.load('model.joblib')
+st.title('AI Real Estate Price Prediction')
+st.write('Введите параметры недвижимости')
+area = st.number_input('Area (m²)', min_value=10.0, value=78.0)
+room_count = st.number_input('Room Count', min_value=1, value=3)
+construction_year = st.number_input('Construction Year', min_value=1950, max_value=2026, value=2019)
+floor = st.number_input('Floor', min_value=1, value=5)
+floor_count = st.number_input('Floor Count', min_value=1, value=9)
+ceiling_height = st.number_input('Ceiling Height', min_value=2.0, max_value=5.0, value=2.7)
+district = st.selectbox(
+    'District',
+    ['Есиль', 'Алматы', 'Сарыарка', 'Байконур']
+)
+condition = st.selectbox(
+    'Condition',
+    ['good', 'average', 'needs repair', 'unknown']
+)
+bathroom_info = st.selectbox(
+    'Bathroom',
+    ['combined', 'separate', '2 or more', 'unknown']
+)
+parking = st.selectbox(
+    'Parking',
+    ['yes', 'no']
+)
+elevator = st.selectbox(
+    'Elevator',
+    ['yes', 'no']
+)
+if st.button('Predict Price'):
+    input_data = pd.DataFrame({
+        'owner': ['owner'],
+        'complex_name': ['unknown'],
+        'house_type': ['monolith'],
+        'in_pledge': [False],
+        'construction_year': [construction_year],
+        'ceiling_height': [ceiling_height],
+        'bathroom_info': [bathroom_info],
+        'condition': [condition],
+        'area': [area],
+        'room_count': [room_count],
+        'floor': [floor],
+        'floor_count': [floor_count],
+        'district': [district],
+        'complex_class': ['comfort'],
+        'parking': [parking],
+        'elevator': [elevator],
+        'schools_within_500m': [2],
+        'kindergartens_within_500m': [2],
+        'park_within_1km': [True],
+        'distance_to_center': [5],
+        'distance_to_botanical_garden': [3],
+        'distance_to_triathlon_park': [4],
+        'distance_to_astana_park': [4],
+        'distance_to_treatment_facility': [6],
+        'distance_to_railway_station_1': [8],
+        'distance_to_railway_station_2': [9],
+        'distance_to_industrial_zone': [10],
+        'last_floor': [False],
+        'first_floor': [False]
+    })
+    prediction = model.predict(input_data)[0]
+    st.success(f'Predicted price: {prediction:,.0f} KZT')
+    response = f'''
+    Предполагаемая стоимость квартиры составляет
+    {prediction:,.0f} тенге.
+    Основными факторами являются:
+    - район {district}
+    - площадь {area} м²
+    - {room_count}-комнатная планировка
+    - год постройки {construction_year}
+    Квартира имеет хороший инвестиционный потенциал.
+    '''
+    st.subheader('AI Analysis')
+    st.write(response)
