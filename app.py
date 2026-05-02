@@ -58,28 +58,38 @@ elevator = st.selectbox(
     ["yes", "no"]
 )
 
-# ===== FIXED VALUES =====
+# ===== СОЗДАНИЕ INPUT DATA =====
 
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'complex_name': ['unknown'],
     'house_type': ['monolith'],
     'in_pledge': [False],
+
     'construction_year': [construction_year],
     'ceiling_height': [ceiling_height],
+
     'bathroom_info': [bathroom_info],
     'condition': [condition],
+
     'area': [area],
     'room_count': [room_count],
+
     'floor': [floor],
     'floor_count': [floor_count],
+
     'district': [district],
+
     'complex_class': ['comfort'],
+
     'parking': [parking],
     'elevator': [elevator],
+
     'schools_within_500m': [2],
     'kindergartens_within_500m': [2],
+
     'park_within_1km': [True],
+
     'distance_to_center': [5],
     'distance_to_botanical_garden': [3],
     'distance_to_triathlon_park': [4],
@@ -88,14 +98,27 @@ input_data = pd.DataFrame({
     'distance_to_railway_station_1': [8],
     'distance_to_railway_station_2': [9],
     'distance_to_industrial_zone': [10],
+
     'last_floor': [False],
     'first_floor': [False]
 })
 
-# ===== PREDICTION =====
+# ===== ONE HOT ENCODING =====
 
-if st.button("Predict Price"):
+input_data = pd.get_dummies(input_data)
 
-    prediction = model.predict(input_data)[0]
+# ===== ЗАГРУЗКА TRAIN COLUMNS =====
 
-    st.success(f"Predicted price: {prediction:,.0f} KZT")
+columns = joblib.load('columns.joblib')
+
+# ===== ВЫРАВНИВАНИЕ КОЛОНОК =====
+
+input_data = input_data.reindex(columns=columns, fill_value=0)
+
+# ===== ПРЕДСКАЗАНИЕ =====
+
+prediction = model.predict(input_data)[0]
+
+# ===== ВЫВОД =====
+
+st.success(f'Predicted price: {prediction:,.0f} KZT')
