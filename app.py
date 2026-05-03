@@ -116,11 +116,14 @@ columns = joblib.load('columns.joblib')
 input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
-
 from openai import OpenAI
 client = OpenAI(api_key="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")
-st.title("Помощник по недвижимости- ChatGPT")
-if st.button("Рекомендация от помощника🧑‍💼"):
+# Показываем предсказанную цену
+st.success(f"Предсказанная цена: {prediction:,.0f} тенге")
+
+# Кнопка рекомендации
+if st.button("Рекомендация от помощника"):
+
     # Создаём промпт
     prompt = f"""
 Дай короткий совет по покупке квартиры с параметрами:
@@ -133,7 +136,9 @@ if st.button("Рекомендация от помощника🧑‍💼"):
 
 Напиши 2–3 предложения.
 """
-        response = client.chat.completions.create(
+
+    # Запрос к OpenAI
+    response = client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
             {
@@ -146,6 +151,6 @@ if st.button("Рекомендация от помощника🧑‍💼"):
     # Получаем ответ
     advice = response.choices[0].message.content
 
-    # Показываем ответ
-    st.subheader("Совет помощника🧑‍💼:")
+    # Показываем совет
+    st.subheader("Совет помощника")
     st.write(advice)
