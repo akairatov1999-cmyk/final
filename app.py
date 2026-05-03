@@ -4,8 +4,18 @@ import joblib
 model = joblib.load('model.joblib')
 st.title("Оценщик недвижимости в городе Астана")
 st.write("Введите данные о своей квартиры")
-area = st.number_input("Площадь (m²)", min_value=10.0, max_value=700.0, value=50.0)
-room_count = st.number_input("Количество комнат", min_value=1, max_value=43, value=2)
+in_pledge = st.checkbox("Квартира в залоге?"
+                       )
+area = st.number_input(
+    "Площадь (m²)", 
+    min_value=10.0, 
+    max_value=700.0, 
+    value=50.0
+)
+room_count = st.number_input(
+    "Количество комнат", 
+    min_value=1, max_value=40, 
+    value=2)
 construction_year = st.number_input(
     "Год постройки",
     min_value=1950,
@@ -48,8 +58,7 @@ complex_class = st.selectbox(
     "Класс жилого комплекса", 
                              ["economy", "comfort", "business", "luxury"]
 )
-in_pledge = st.checkbox("Квартира в залоге?"
-                       )
+
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
