@@ -45,6 +45,11 @@ elevator = st.selectbox(
     "Лифт",
     ["yes", "no"]
 )
+if floor_count > 6:
+    elevator = "yes"
+    st.info("В домах выше 6 этажей лифт обязателен, поэтому значение установлено в 'yes'.")
+else:
+    elevator = st.selectbox("Лифт", ["yes", "no"])
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'complex_name': ['unknown'],
