@@ -117,4 +117,3 @@ input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
 
-ьте ваш API-ключ.")
