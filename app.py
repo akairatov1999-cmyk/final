@@ -30,12 +30,14 @@ ceiling_height = st.number_input(
 )
 floor = st.number_input(
     "Этаж", 
-    min_value=1, 
+    min_value=1,
+    max_value=40,
     value=5
 )
 floor_count = st.number_input(
     "Количество этажей в доме", 
-    min_value=1, 
+    min_value=1,
+    max_value=40,
     value=9
 )
 elevator = st.selectbox("Лифт", ["Да", "Нет"])
