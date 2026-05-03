@@ -118,18 +118,34 @@ prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
 
 from openai import OpenAI
-
 client = OpenAI(api_key="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")
 st.title("Помощник по недвижимости- ChatGPT")
+if st.button("Рекомендация от помощника🧑‍💼"):
+    # Создаём промпт
+    prompt = f"""
+Дай короткий совет по покупке квартиры с параметрами:
+район {district},
+цена {prediction:,.0f} тенге,
+площадь {area} м²,
+этаж {floor} из {floor_count},
+состояние {condition},
+парковка {parking}.
 
-user_input = st.text_input("Рекомендация")
-
-if st.button("Send"):
-    response = client.chat.completions.create(
+Напиши 2–3 предложения.
+"""
+        response = client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
-            {"role": "user", "content": user_input}
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
-    st.write(response.choices[0].message.content)
+    # Получаем ответ
+    advice = response.choices[0].message.content
+
+    # Показываем ответ
+    st.subheader("Совет помощника🧑‍💼:")
+    st.write(advice)
