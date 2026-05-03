@@ -20,6 +20,10 @@ ceiling_height = st.number_input(
 )
 floor = st.number_input("Этаж", min_value=1, value=5)
 floor_count = st.number_input("Количество этажей в доме", min_value=1, value=9)
+elevator = st.selectbox(
+    "Лифт",
+    ["yes", "no"]
+)
 if floor > floor_count:
     st.error("❌ Ошибка: Этаж не может быть больше количества этажей в доме!")
     st.stop()   # Останавливает выполнение программы (предсказание не будет показано)
@@ -28,10 +32,7 @@ if floor_count > 5 and elevator == "no":
     st.stop()
 first_floor = (floor == 1)
 last_floor = (floor == floor_count)
-elevator = st.selectbox(
-    "Лифт",
-    ["yes", "no"]
-)
+
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
