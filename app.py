@@ -79,7 +79,6 @@ parking = st.selectbox(
 
 input_data = pd.DataFrame({
     'owner': ['owner'],
-    'complex_name': ['unknown'],
     'house_type': [house_type],
     'in_pledge': [in_pledge],
     'construction_year': [construction_year],
@@ -94,17 +93,6 @@ input_data = pd.DataFrame({
     'complex_class': [complex_class],
     'parking': [parking],
     'elevator': [elevator],
-    'schools_within_500m': [2],
-    'kindergartens_within_500m': [2],
-    'park_within_1km': [True],
-    'distance_to_center': [5],
-    'distance_to_botanical_garden': [3],
-    'distance_to_triathlon_park': [4],
-    'distance_to_astana_park': [4],
-    'distance_to_treatment_facility': [6],
-    'distance_to_railway_station_1': [8],
-    'distance_to_railway_station_2': [9],
-    'distance_to_industrial_zone': [10],
     'last_floor': [last_floor],
     'first_floor': [first_floor]
 })
