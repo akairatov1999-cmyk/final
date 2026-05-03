@@ -20,6 +20,8 @@ ceiling_height = st.number_input(
 )
 floor = st.number_input("Этаж", min_value=1, value=5)
 floor_count = st.number_input("Количество этажей в доме", min_value=1, value=9)
+first_floor = (floor == 1)
+last_floor = (floor == floor_count)
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
@@ -68,8 +70,8 @@ input_data = pd.DataFrame({
     'distance_to_railway_station_1': [8],
     'distance_to_railway_station_2': [9],
     'distance_to_industrial_zone': [10],
-    'last_floor': [False],
-    'first_floor': [False]
+    'last_floor': [last_floor],
+    'first_floor': [first_floor]
 })
 input_data = pd.get_dummies(input_data)
 columns = joblib.load('columns.joblib')
