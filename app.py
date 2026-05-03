@@ -1,45 +1,43 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
-# Загрузка модели
 model = joblib.load('model.joblib')
 st.title("Оценщик недвижимости в городе Астана")
 st.write("Введите данные о своей квартиры")
-area = st.number_input("Area (m²)", min_value=10.0, value=50.0)
-room_count = st.number_input("Room Count", min_value=1, value=2)
+area = st.number_input("Площадь (m²)", min_value=10.0, max_value=700.0, value=50.0)
+room_count = st.number_input("Количество комнат", min_value=1, max_value=43, value=2)
 construction_year = st.number_input(
-    "Construction Year",
+    "Год постройки",
     min_value=1950,
     max_value=2026,
     value=2015
 )
 ceiling_height = st.number_input(
-    "Ceiling Height",
+    "Высота потолка",
     min_value=2.0,
     max_value=5.0,
     value=2.7
 )
-floor = st.number_input("Floor", min_value=1, value=5)
-floor_count = st.number_input("Total Floors", min_value=1, value=9)
+floor = st.number_input("Этаж", min_value=1, value=5)
+floor_count = st.number_input("Количество этажей в доме", min_value=1, value=9)
 district = st.selectbox(
-    "District",
+    "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
 )
 condition = st.selectbox(
-    "Condition",
+    "Состояние",
     ["good", "average", "needs repair", "unknown"]
 )
 bathroom_info = st.selectbox(
-    "Bathroom",
+    "Ванная",
     ["combined", "separate", "2 or more", "unknown"]
 )
 parking = st.selectbox(
-    "Parking",
+    "Паркинг",
     ["yes", "no"]
 )
 elevator = st.selectbox(
-    "Elevator",
+    "Лифт",
     ["yes", "no"]
 )
 input_data = pd.DataFrame({
