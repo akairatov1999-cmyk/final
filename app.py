@@ -120,10 +120,12 @@ st.success(f'Predicted price: {prediction:,.0f} KZT')
 from openai import OpenAI
 
 client = OpenAI(api_key="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")
+client = OpenAI(
+    api_key=st.secrets["OPENAI_API_KEY"]
+)
+st.title("Помощник по недвижимости- ChatGPT")
 
-st.title("My ChatGPT")
-
-user_input = st.text_input("Напиши сообщение")
+user_input = st.text_input("Рекомендация")
 
 if st.button("Send"):
     response = client.chat.completions.create(
