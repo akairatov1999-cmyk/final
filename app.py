@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 model = joblib.load('model.joblib')
 st.title("Оценщик недвижимости в городе Астана")
-st.write("Введите данные о своей квартиры")
+st.write("Введите данные о своей квартиры🏠")
 in_pledge = st.checkbox("Квартира в залоге?"
                        )
 area = st.number_input(
