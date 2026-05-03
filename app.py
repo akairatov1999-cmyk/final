@@ -62,10 +62,15 @@ district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
 )
-condition = st.selectbox(
-    "Состояние",
-    ["good", "average", "needs repair", "unknown"]
-)
+# Состояние 
+condition_options = {
+    "Хорошее": "good",
+    "Среднее": "average", 
+    "Требует ремонта": "needs repair",
+    "Неизвестно": "unknown"
+}
+condition_label = st.selectbox("Состояние", list(condition_options.keys()))
+condition = condition_options[condition_label]
 bathroom_info = st.selectbox(
     "Ванная",
     ["combined", "separate", "2 or more", "unknown"]
