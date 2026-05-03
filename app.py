@@ -117,24 +117,4 @@ input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
 
-from openai import OpenAI
-
-client = OpenAI(
-  api_key="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"
-)
-user_prompt = f"Дай короткий совет по покупке квартиры с параметрами: район {district}, цена {prediction} тенге, площадь {area} м², этаж {floor} из {floor_count}, состояние {condition}, парковка {parking}. Напиши 2–3 предложения."
-
-try:
-    # 3. Правильный вызов API
-    response = client.chat.completions.create(
-        model="gpt-4.5-mini", 
-        messages=[{"role": "user", "content": user_prompt}],
-        temperature=0.3,  # Необязательный параметр для креативности
-    )
-    
-    # 4. Правильный доступ к ответу
-    recommendation = response.choices[0].message.content
-    st.info(f"🤖 **Совет от ИИ**: {recommendation}")
-
-except Exception as e:
-    st.error(f"Не удалось получить совет от ИИ: {e}. Пожалуйста, проверьте ваш API-ключ.")
+ьте ваш API-ключ.")
