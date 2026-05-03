@@ -4,8 +4,8 @@ import joblib
 
 # Загрузка модели
 model = joblib.load('model.joblib')
-st.title("Real Estate Price Prediction")
-st.write("Enter apartment information")
+st.title("Оценщик недвижимости в городе Астана")
+st.write("Введите данные о своей квартиры")
 area = st.number_input("Area (m²)", min_value=10.0, value=50.0)
 room_count = st.number_input("Room Count", min_value=1, value=2)
 construction_year = st.number_input(
