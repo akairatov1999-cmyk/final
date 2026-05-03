@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from openai import OpenAI
+from getpass import getpass
 model = joblib.load('model.joblib')
 st.title("Оценщик недвижимости в городе Астана")
 st.write("Введите данные о своей квартиры🏠")
