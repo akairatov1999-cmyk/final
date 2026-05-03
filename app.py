@@ -38,10 +38,8 @@ floor_count = st.number_input(
     min_value=1, 
     value=9
 )
-elevator = st.selectbox(
-    "Лифт",
-    ["yes", "no"]
-)
+elevator = st.selectbox("Лифт", ["Да", "Нет"])
+elevator = "yes" if elevator == "Да" else "no"
 if floor > floor_count:
     st.error("❌ Ошибка: Этаж не может быть больше количества этажей в доме!")
     st.stop()   # Останавливает выполнение программы (предсказание не будет показано)
@@ -71,14 +69,21 @@ condition_options = {
 }
 condition_label = st.selectbox("Состояние", list(condition_options.keys()))
 condition = condition_options[condition_label]
-bathroom_info = st.selectbox(
-    "Ванная",
-    ["combined", "separate", "2 or more", "unknown"]
-)
-parking = st.selectbox(
-    "Паркинг",
-    ["yes", "no"]
-)
+# Ванная
+bathroom_options = {
+    "Совмещённый": "combined",
+    "Раздельный": "separate",
+    "2 и более": "2 or more",
+    "Неизвестно": "unknown"
+}
+bathroom_label = st.selectbox("Ванная", list(bathroom_options.keys()))
+bathroom_info = bathroom_options[bathroom_label]
+# Паркинг
+parking = st.selectbox("Парковка", ["Да", "Нет"])
+parking = "yes" if parking == "Да" else "no"
+
+
+
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'house_type': [house_type],
