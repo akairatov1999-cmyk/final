@@ -44,22 +44,32 @@ if floor > floor_count:
     st.error("❌ Ошибка: Этаж не может быть больше количества этажей в доме!")
     st.stop()   # Останавливает выполнение программы (предсказание не будет показано)
 if floor_count > 5 and elevator == "no":
-    st.error("❌ В доме с более чем 5 этажами должен быть лифт! Пожалуйста, выберите 'yes'.")
+    st.error("❌ В доме с более чем 5 этажами должен быть лифт! Пожалуйста, выберите 'Да'.")
     st.stop()
 first_floor = (floor == 1)
 last_floor = (floor == floor_count)
-house_type = st.selectbox(
-    "Тип дома", 
-    ["panel", "brick", "monolith", "block"]
-)
-complex_class = st.selectbox(
-    "Класс жилого комплекса", 
-                             ["economy", "comfort", "business", "luxury"]
-)
-district = st.selectbox(
-    "Район",
-    ["Алматы", "Есиль", "Сарыарка", "Байконур"]
-)
+# Тип дома
+house_type_options = {
+    "Панельный": "panel",
+    "Кирпичный": "brick",
+    "Монолитный": "monolith",
+    "Блочный": "block"
+}
+house_type_label = st.selectbox("Тип дома", list(house_type_options.keys()))
+house_type = house_type_options[house_type_label]
+# Класс ЖК
+complex_class_options = {
+    "Эконом": "economy",
+    "Комфорт": "comfort",
+    "Бизнес": "business",
+    "Премиум": "luxury"
+}
+complex_class_label = st.selectbox("Класс жилого комплекса", list(complex_class_options.keys()))
+complex_class = complex_class_options[complex_class_label]
+# Район
+district_options = {"Алматы": "almaty", "Сарыарка": "saryarka", "Нура": "nura", "Есиль": "esil", "Байконыр": "baikonur"}
+district_display = st.selectbox("Район", list(district_options.keys()))
+district = district_options[district_display]
 # Состояние 
 condition_options = {
     "Хорошее": "good",
@@ -81,9 +91,6 @@ bathroom_info = bathroom_options[bathroom_label]
 # Паркинг
 parking = st.selectbox("Парковка", ["Да", "Нет"])
 parking = "yes" if parking == "Да" else "no"
-
-
-
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'house_type': [house_type],
