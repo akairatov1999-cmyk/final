@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from openai import OpenAI
 model = joblib.load('model.joblib')
 st.title("Оценщик недвижимости в городе Астана")
 st.write("Введите данные о своей квартиры🏠")
@@ -115,8 +116,6 @@ input_data = pd.get_dummies(input_data)
 columns = joblib.load('columns.joblib')
 input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
-st.success(f'Predicted price: {prediction:,.0f} KZT')
-from openai import OpenAI
 client = OpenAI(api_key="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")
 # Показываем предсказанную цену
 st.success(f"Предсказанная цена: {prediction:,.0f} тенге")
