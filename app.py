@@ -18,8 +18,16 @@ ceiling_height = st.number_input(
     max_value=5.0,
     value=2.7
 )
-floor = st.number_input("Этаж", min_value=1, value=5)
-floor_count = st.number_input("Количество этажей в доме", min_value=1, value=9)
+floor = st.number_input(
+    "Этаж", 
+    min_value=1, 
+    value=5
+)
+floor_count = st.number_input(
+    "Количество этажей в доме", 
+    min_value=1, 
+    value=9
+)
 elevator = st.selectbox(
     "Лифт",
     ["yes", "no"]
@@ -32,7 +40,16 @@ if floor_count > 5 and elevator == "no":
     st.stop()
 first_floor = (floor == 1)
 last_floor = (floor == floor_count)
-
+house_type = st.selectbox(
+    "Тип дома", 
+    ["panel", "brick", "monolith", "block"]
+)
+complex_class = st.selectbox(
+    "Класс жилого комплекса", 
+                             ["economy", "comfort", "business", "luxury"]
+)
+in_pledge = st.checkbox("Квартира в залоге?"
+                       )
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
@@ -54,8 +71,8 @@ parking = st.selectbox(
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'complex_name': ['unknown'],
-    'house_type': ['monolith'],
-    'in_pledge': [False],
+    'house_type': [house_type],
+    'in_pledge': [in_pledge],
     'construction_year': [construction_year],
     'ceiling_height': [ceiling_height],
     'bathroom_info': [bathroom_info],
@@ -65,7 +82,7 @@ input_data = pd.DataFrame({
     'floor': [floor],
     'floor_count': [floor_count],
     'district': [district],
-    'complex_class': ['comfort'],
+    'complex_class': [complex_class],
     'parking': [parking],
     'elevator': [elevator],
     'schools_within_500m': [2],
