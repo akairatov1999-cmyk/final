@@ -58,7 +58,6 @@ complex_class = st.selectbox(
     "Класс жилого комплекса", 
                              ["economy", "comfort", "business", "luxury"]
 )
-
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
@@ -75,8 +74,6 @@ parking = st.selectbox(
     "Паркинг",
     ["yes", "no"]
 )
-
-
 input_data = pd.DataFrame({
     'owner': ['owner'],
     'house_type': [house_type],
