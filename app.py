@@ -4,7 +4,7 @@ import joblib
 from openai import OpenAI
 from getpass import getpass
 model = joblib.load('model.joblib')
-st.title("Оценщик недвижимости в городе Астана")
+st.title("📊 Оценщик недвижимости в городе Астана")
 st.write("Введите данные о своей квартиры🏠")
 in_pledge = st.checkbox("Квартира в залоге?"
                        )
