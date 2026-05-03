@@ -23,13 +23,15 @@ floor_count = st.number_input("Количество этажей в доме", m
 if floor > floor_count:
     st.error("❌ Ошибка: Этаж не может быть больше количества этажей в доме!")
     st.stop()   # Останавливает выполнение программы (предсказание не будет показано)
-if floor_count > 6:
-    elevator = "yes"
-    st.info("В домах выше 6 этажей лифт обязателен, поэтому значение установлено в 'yes'.")
-else:
-    elevator = st.selectbox("Лифт", ["yes", "no"])
+if floor_count > 5 and elevator == "no":
+    st.error("❌ В доме с более чем 5 этажами должен быть лифт! Пожалуйста, выберите 'yes'.")
+    st.stop()
 first_floor = (floor == 1)
 last_floor = (floor == floor_count)
+elevator = st.selectbox(
+    "Лифт",
+    ["yes", "no"]
+)
 district = st.selectbox(
     "Район",
     ["Алматы", "Есиль", "Сарыарка", "Байконур"]
@@ -46,6 +48,7 @@ parking = st.selectbox(
     "Паркинг",
     ["yes", "no"]
 )
+
 
 input_data = pd.DataFrame({
     'owner': ['owner'],
