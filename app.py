@@ -116,3 +116,25 @@ columns = joblib.load('columns.joblib')
 input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
+
+from openai import OpenAI
+
+client = OpenAI(
+  api_key="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"
+)
+user_prompt = f"Дай короткий совет по покупке квартиры с параметрами: район {district}, цена {prediction} тенге, площадь {area} м², этаж {floor} из {floor_count}, состояние {condition}, парковка {parking}. Напиши 2–3 предложения."
+
+try:
+    # 3. Правильный вызов API
+    response = client.chat.completions.create(
+        model="gpt-5.4-mini", 
+        messages=[{"role": "user", "content": user_prompt}],
+        temperature=0.7,  # Необязательный параметр для креативности
+    )
+    
+    # 4. Правильный доступ к ответу
+    recommendation = response.choices[0].message.content
+    st.info(f"🤖 **Совет от ИИ**: {recommendation}")
+
+except Exception as e:
+    st.error(f"Не удалось получить совет от ИИ: {e}. Пожалуйста, проверьте ваш API-ключ.")
