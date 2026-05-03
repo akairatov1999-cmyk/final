@@ -115,11 +115,3 @@ columns = joblib.load('columns.joblib')
 input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
 st.success(f'Predicted price: {prediction:,.0f} KZT')
-import openai
-openai.api_key = "ваш_ключ"
-response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": f"Дай короткий совет по покупке квартиры с параметрами: район {district}, цена {prediction} тенге, площадь {area} м², этаж {floor} из {floor_count}, состояние {condition}, парковка {parking}. Напиши 2–3 предложения."}]
-)
-recommendation = response.choices[0].message.content
-st.write(recommendation)
