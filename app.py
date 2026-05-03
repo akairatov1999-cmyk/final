@@ -117,7 +117,7 @@ input_data = pd.get_dummies(input_data)
 columns = joblib.load('columns.joblib')
 input_data = input_data.reindex(columns=columns, fill_value=0)
 prediction = model.predict(input_data)[0]
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 # Показываем предсказанную цену
 st.success(f"Предсказанная цена: {prediction:,.0f} тенге")
 
