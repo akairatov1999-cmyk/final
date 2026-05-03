@@ -120,16 +120,16 @@ st.success(f'Predicted price: {prediction:,.0f} KZT')
 from openai import OpenAI
 
 client = OpenAI(
-  api_key="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"
+  api_key="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"
 )
 user_prompt = f"Дай короткий совет по покупке квартиры с параметрами: район {district}, цена {prediction} тенге, площадь {area} м², этаж {floor} из {floor_count}, состояние {condition}, парковка {parking}. Напиши 2–3 предложения."
 
 try:
     # 3. Правильный вызов API
     response = client.chat.completions.create(
-        model="gpt-5.4-mini", 
+        model="gpt-4.5-mini", 
         messages=[{"role": "user", "content": user_prompt}],
-        temperature=0.7,  # Необязательный параметр для креативности
+        temperature=0.3,  # Необязательный параметр для креативности
     )
     
     # 4. Правильный доступ к ответу
