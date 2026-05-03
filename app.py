@@ -52,8 +52,7 @@ last_floor = (floor == floor_count)
 house_type_options = {
     "Панельный": "panel",
     "Кирпичный": "brick",
-    "Монолитный": "monolith",
-    "Блочный": "block"
+    "Монолитный": "monolith"
 }
 house_type_label = st.selectbox("Тип дома", list(house_type_options.keys()))
 house_type = house_type_options[house_type_label]
