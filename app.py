@@ -46,10 +46,6 @@ parking = st.selectbox(
     "Паркинг",
     ["yes", "no"]
 )
-elevator = st.selectbox(
-    "Лифт",
-    ["yes", "no"]
-)
 
 input_data = pd.DataFrame({
     'owner': ['owner'],
