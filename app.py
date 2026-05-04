@@ -145,8 +145,7 @@ if st.button("Рекомендация от помощник"):
     # Запрос к OpenAI
     response = client.chat.completions.create(
         model="gpt-5.4-mini",
-      temperature=0.3,  # детерминированные решения
-        messages=[
+            messages=[
             {
                 "role": "user",
                 "content": prompt
